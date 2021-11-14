@@ -7,7 +7,7 @@ $image["size"] = [];
 $ok = 1;
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $name = ($_POST["name"]);
-  $email = ($_POST["email"]);
+  $email = strtolower($_POST["email"]);
   $image = ($_FILES["image"]);
   $password = ($_POST["password"]);
   $conPassword = ($_POST["password_confirmation"]);

@@ -49,7 +49,7 @@ if (!isset($_SESSION["name"])) {
                         <img class="dashboard-img" src="<?php echo "./" . $_SESSION["image"]; ?>" alt="" id="profile">
                      </div>
                      <div class="welcome">
-                        <div class="dashboard-title">Hi <span id="username"><?php echo $_SESSION["name"]; ?></span> !</div>
+                        <div class="dashboard-title">Hi <span id="username"><?php echo ucwords($_SESSION["name"]); ?></span> !</div>
                         <div class="dashboard-des">Welcome back</div>
                      </div>
                   </div>
