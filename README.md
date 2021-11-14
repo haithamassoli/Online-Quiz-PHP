@@ -1,4 +1,4 @@
-# Online_Quiz_Website
+# Online_Quiz
 
 ## Synopsis
 A website for Online Quizzes.
@@ -24,6 +24,3 @@ https://miro.com/app/board/o9J_lnIr0VQ=/
 
 ## Trello
 https://trello.com/b/FJP44Z78/online-quiz-website
-
-## Live page
-https://haithamassoli.github.io/Online-Quiz/
