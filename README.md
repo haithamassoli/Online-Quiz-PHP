@@ -8,7 +8,9 @@ A website for Online Quizzes.
 2. CSS3.
 3. Javascript.
 4. Bootstrap.
-5. PHP.
+5. API
+6. PHP.
+7. MySQL
 
 ## Tools
 1. Google Chrome.
