@@ -11,79 +11,79 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $image = ($_FILES["image"]);
   $password = ($_POST["password"]);
   $conPassword = ($_POST["password_confirmation"]);
-}
 
-if (!preg_match("/^[a-zA-Z-' ]*$/", $name)) {
-  $nameError = "Only letters and white space allowed";
-  $ok = 0;
-}
-if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-  $emailError = ("$email is not a valid email address");
-  $ok = 0;
-}
-if (!filter_var($password, FILTER_VALIDATE_REGEXP,  array("options" => array("regexp" => "/^\S*(?=\S{8,})(?=\S*[a-z])(?=\S*[A-Z])(?=\S*[\d])\S*$/")))) {
-  $passwordError = ("your password is not a valid");
-  $ok = 0;
-}
 
-if ($name == "") {
-  $ok = 0;
-  $nameError = "The name shouldn't be empty!";
-}
-if ($email == "") {
-  $ok = 0;
-  $emailError = "The email shouldn't be empty!";
-}
-if ($image["size"] == 0 && !isset($_POST["image-profile"])) {
-  $ok = 0;
-  $imageError = "Please make sure to select an image";
-}
-if ($password == "") {
-  $ok = 0;
-  $passwordError = "The password shouldn't be empty!";
-}
-if ($password != $conPassword) {
-  $ok = 0;
-  $conPasswordError = "password don't match";
-}
-$sql = "SELECT * FROM users WHERE email = '$email'";
-$result = mysqli_query($conn, $sql);
-if (mysqli_num_rows($result) > 0) {
-  $emailError = 'this email is already exist';
-  $ok = 0;
-}
+  if (!preg_match("/^[a-zA-Z-' ]*$/", $name)) {
+    $nameError = "Only letters and white space allowed";
+    $ok = 0;
+  }
+  if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    $emailError = ("$email is not a valid email address");
+    $ok = 0;
+  }
+  if (!filter_var($password, FILTER_VALIDATE_REGEXP,  array("options" => array("regexp" => "/^\S*(?=\S{8,})(?=\S*[a-z])(?=\S*[A-Z])(?=\S*[\d])\S*$/")))) {
+    $passwordError = ("your password is not a valid");
+    $ok = 0;
+  }
 
-$target_dir = "uploads/";
-if ($image["size"] != 0 && $ok == 1) {
-  if (getimagesize($image["tmp_name"]) != 0) {
-    if ($image["type"] == "image/jpeg") {
-      $newImage = $target_dir . "IMG-" . uniqid() . $image["name"];
-      move_uploaded_file($image["tmp_name"], $newImage);
+  if ($name == "") {
+    $ok = 0;
+    $nameError = "The name shouldn't be empty!";
+  }
+  if ($email == "") {
+    $ok = 0;
+    $emailError = "The email shouldn't be empty!";
+  }
+  if ($image["size"] == 0 && !isset($_POST["image-profile"])) {
+    $ok = 0;
+    $imageError = "Please make sure to select an image";
+  }
+  if ($password == "") {
+    $ok = 0;
+    $passwordError = "The password shouldn't be empty!";
+  }
+  if ($password != $conPassword) {
+    $ok = 0;
+    $conPasswordError = "password don't match";
+  }
+  $sql = "SELECT * FROM users WHERE email = '$email'";
+  $result = mysqli_query($conn, $sql);
+  if (mysqli_num_rows($result) > 0) {
+    $emailError = 'this email is already exist';
+    $ok = 0;
+  }
+
+  $target_dir = "uploads/";
+  if ($image["size"] != 0 && $ok == 1) {
+    if (getimagesize($image["tmp_name"]) != 0) {
+      if ($image["type"] == "image/jpeg") {
+        $newImage = $target_dir . "IMG-" . uniqid() . $image["name"];
+        move_uploaded_file($image["tmp_name"], $newImage);
+      }
     }
   }
-}
-if ($ok == 1) {
-  if ($_POST["image-profile"] == "bt1") {
-    $newImage = 'img/bt1.png';
-  }
-  if ($_POST["image-profile"] == "bt2") {
-    $newImage = 'img/bt2.png';
-  }
-  if ($_POST["image-profile"] == "bt3") {
-    $newImage = 'img/bt3.png';
-  }
+  if ($ok == 1) {
+    if ($_POST["image-profile"] == "bt1") {
+      $newImage = 'img/bt1.png';
+    }
+    if ($_POST["image-profile"] == "bt2") {
+      $newImage = 'img/bt2.png';
+    }
+    if ($_POST["image-profile"] == "bt3") {
+      $newImage = 'img/bt3.png';
+    }
 
-  $sql2 = "INSERT INTO users (name, email, password, image) VALUES('$name', '$email', '$password', '$newImage')";
-  if ($conn->query($sql2) === TRUE) {
-    echo "New record created successfully";
-  } else {
-    echo "Error: " . $sql2 . "<br>" . $conn->error;
+    $sql2 = "INSERT INTO users (name, email, password, image) VALUES('$name', '$email', '$password', '$newImage')";
+    if ($conn->query($sql2) === TRUE) {
+      echo "New record created successfully";
+    } else {
+      echo "Error: " . $sql2 . "<br>" . $conn->error;
+    }
+    $conn->close();
+    header('Location: login.php');
+    exit;
   }
-  $conn->close();
-  header('Location: login.php');
-  exit;
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -114,7 +114,7 @@ if ($ok == 1) {
             <a class="nav-link" href="#">About</a>
           </li>
         </ul>
-        <a href="login.html" class="btn secondaryBtn me-2">Login</a>
+        <a href="login.php" class="btn secondaryBtn me-2">Login</a>
       </div>
     </div>
   </nav>
@@ -193,7 +193,7 @@ if ($ok == 1) {
               </form>
               <div class="mt-4">
                 <span>Already have an account?
-                  <a class="ms-1 regster-href" href="login.html">Login</a>
+                  <a class="ms-1 regster-href" href="login.php">Login</a>
                 </span>
               </div>
             </div>

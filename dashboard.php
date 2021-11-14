@@ -1,14 +1,9 @@
 <?php
 session_start();
 include "./conn.php";
-$sql = "SELECT * FROM users WHERE email = '$email' AND password = '$password'";
-$result = mysqli_query($conn, $sql);
-//  while ($row = mysqli_fetch_array($result)) {
-//    $_SESSION["name"] = $row["name"];
-//    $_SESSION["image"] = $row["image"];
-// }
-echo $_SESSION["image"];
-echo $_SESSION["name"];
+if (!isset($_SESSION["name"])) {
+   header("Location: index.php");
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">

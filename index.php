@@ -15,7 +15,7 @@
    <!-- Start Navbar -->
    <nav class="navbar navbar-expand-lg navbar-light ">
       <div class="container">
-         <a class="navbar-brand" href="index.html">
+         <a class="navbar-brand" href="index.php">
             <img src="img/logo.svg" alt="Turtles">
          </a>
          <ul class="navbar-nav me-auto ">

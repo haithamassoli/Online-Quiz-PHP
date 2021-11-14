@@ -7,20 +7,21 @@ $ok = 1;
 if ($_SERVER["REQUEST_METHOD"] == 'POST') {
    $email = ($_POST["email"]);
    $password = ($_POST["password"]);
-}
-$sql = "SELECT * FROM users WHERE email = '$email' AND password = '$password'";
-$result = mysqli_query($conn, $sql);
-while ($row = mysqli_fetch_array($result)) {
-   $_SESSION["name"] = $row["name"];
-   $_SESSION["image"] = $row["image"];
-}
-if (mysqli_num_rows($result) > 0) {
-   header('Location: dashboard.php');
-   exit;
-} else {
-   $emailError =  "email or password is incorrect";
-}
 
+   $sql = "SELECT * FROM users WHERE email = '$email' AND password = '$password'";
+   $result = mysqli_query($conn, $sql);
+
+   if (mysqli_num_rows($result) > 0) {
+      while ($row = mysqli_fetch_array($result)) {
+         $_SESSION["name"] = $row["name"];
+         $_SESSION["image"] = $row["image"];
+      }
+      header('Location: dashboard.php');
+      exit;
+   } else {
+      $emailError =  "email or password is incorrect";
+   }
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
