@@ -15,9 +15,16 @@ if ($_SERVER["REQUEST_METHOD"] == 'POST') {
       while ($row = mysqli_fetch_array($result)) {
          $_SESSION["name"] = $row["name"];
          $_SESSION["image"] = $row["image"];
+         $_SESSION["admin"] = $row["admin"];
       }
-      header('Location: dashboard.php');
-      exit;
+      if ($_SESSION["admin"] == 0) {
+         header('Location: dashboard.php');
+         exit;
+      }
+      if ($_SESSION["admin"] == 1) {
+         header('Location: ./admin/admin.php');
+         exit;
+      }
    } else {
       $emailError =  "email or password is incorrect";
    }

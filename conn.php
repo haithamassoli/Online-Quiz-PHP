@@ -2,7 +2,7 @@
 $servername = "localhost";
 $username = "root";
 $password = "";
-$db_name = "chat-app";
+$db_name = "online-quiz";
 
 // Create connection
 $conn = new mysqli($servername, $username, $password, $db_name);

@@ -1,8 +1,8 @@
 <?php
 session_start();
 include "./conn.php";
-$nameError = $emailError = $imageError = $passwordError = $conPasswordError = "";
-$name = $email = $password = $conPassword  = "";
+$nameError = $emailError = $imageError = $passwordError = $conPasswordError = $dobError = "";
+$name = $email = $password = $conPassword = $dob = $age = "";
 $image["size"] = [];
 $ok = 1;
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -11,7 +11,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $image = ($_FILES["image"]);
   $password = ($_POST["password"]);
   $conPassword = ($_POST["password_confirmation"]);
-
+  $dob = ($_POST["dob"]);
 
   if (!preg_match("/^[a-zA-Z-' ]*$/", $name)) {
     $nameError = "Only letters and white space allowed";
@@ -46,6 +46,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $ok = 0;
     $conPasswordError = "password don't match";
   }
+  if ($dob != "") {
+    //explode the date to get month, day and year
+    $dob = explode("-", $dob);
+    //get age from date or birthdate
+    $age = (date("md", date("U", mktime(0, 0, 0, $dob[2], $dob[1], $dob[0]))) > date("md")
+      ? ((date("Y") - $dob[0]) - 1)
+      : (date("Y") - $dob[0]));
+  }
+  if ($age < 18) {
+    $dobError = "18+";
+    $ok = 0;
+  }
+  if ($dob == "") {
+    $dobError = "The day of birth shouldn't be empty!";
+    $ok = 0;
+  }
   $sql = "SELECT * FROM users WHERE email = '$email'";
   $result = mysqli_query($conn, $sql);
   if (mysqli_num_rows($result) > 0) {
@@ -73,7 +89,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       $newImage = 'img/bt3.png';
     }
 
-    $sql2 = "INSERT INTO users (name, email, password, image) VALUES('$name', '$email', '$password', '$newImage')";
+    $sql2 = "INSERT INTO users (name, email, password, image, dob) VALUES('$name', '$email', '$password', '$newImage', '$age')";
     if ($conn->query($sql2) === TRUE) {
       echo "New record created successfully";
     } else {
@@ -179,7 +195,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                   <div class="error"><?php echo $conPasswordError ?></div>
                 </div>
                 <div class="form-group">
-                  <button type="submit" class="
+                  <label for="dob" class="control-label">Select your date of birth</label>
+                  <input id="dob" type="date" class="form-control" name="dob" value="1000-01-01" />
+                  <div class="error"><?php echo $dobError ?></div>
+                </div>
+                <button type="submit" class="
                         btn
                         primaryBtn
                         full-width
@@ -187,19 +207,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         register
                         white
                       " id="signup">
-                    Register
-                  </button>
-                </div>
-              </form>
-              <div class="mt-4">
-                <span>Already have an account?
-                  <a class="ms-1 regster-href" href="login.php">Login</a>
-                </span>
-              </div>
+                  Register
+                </button>
+            </div>
+            </form>
+            <div class="mt-4">
+              <span>Already have an account?
+                <a class="ms-1 regster-href" href="login.php">Login</a>
+              </span>
             </div>
           </div>
         </div>
       </div>
+    </div>
     </div>
   </section>
   <aside class="floaty-bar">
